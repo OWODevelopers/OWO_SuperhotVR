@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MelonLoader;
 using OWOGame;
 
-namespace OWO_ElvenAssassin
+namespace OWO_SuperhotVR
 {
     public class OWOSkin
     {

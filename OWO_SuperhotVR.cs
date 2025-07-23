@@ -5,11 +5,11 @@ using System;
 using UnityEngine;
 using WenklyStudio.ElvenAssassin;
 
-[assembly: MelonInfo(typeof(OWO_ElvenAssassin.OWO_SuperhotVR), "OWO_SuperHotVR", "1.0.0", "OWOGame")]
-[assembly: MelonGame("SUPERHOT Team", "SUPERHOT VR")]
+[assembly: MelonInfo(typeof(OWO_SuperhotVR.OWO_SuperhotVR), "OWO_SuperHotVR", "1.0.0", "OWOGame")]
+[assembly: MelonGame("SUPERHOT_Team", "SUPERHOT_VR")]
 
 
-namespace OWO_ElvenAssassin
+namespace OWO_SuperhotVR
 {
     public class OWO_SuperhotVR : MelonMod
     {

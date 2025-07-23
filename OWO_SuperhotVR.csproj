@@ -7,8 +7,8 @@
     <ProjectGuid>{A501F7A0-AF29-4EF5-86ED-8C8F90F09314}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OWO_ElvenAssassin</RootNamespace>
-    <AssemblyName>OWO_ElvenAssassin</AssemblyName>
+    <RootNamespace>OWO_SuperhotVR</RootNamespace>
+    <AssemblyName>OWO_SuperhotVR</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
