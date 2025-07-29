@@ -70,10 +70,6 @@
       <HintPath>lib\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="WenklyStudioCore">
-      <HintPath>lib\WenklyStudioCore.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OWO_SuperhotVR.cs" />
