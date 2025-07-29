@@ -14,6 +14,7 @@ Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 - Enjoy your inmersive experience! 😊
 
 --WIP--
+
 # Featured effect
 - String Bow
 - Bow Release
@@ -27,6 +28,7 @@ Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 - Fire Catapult
 - Fire Balista
 - Heart Beat
+
 --WIP--
 
 # Manual Connection
