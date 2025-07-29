@@ -1,13 +1,9 @@
-# OWO_Elven_Assassin
-OWO x Elven Assassin integration
-
-This mod is based on the work of [Florian](https://github.com/floh-bhaptics/ElvenAssassin_bhaptics).
-
-## Warning
-Let me be very clear up front: Elven Assassin is a multiplayer game. If you try to cheat via mods, you are likely going to get your account banned, and nobody will like you. Even with this workaround, Elven Assassin will know that you are running a mod, and it will tell you right at startup that it knows. This mod here should be fine, it is not cheating and only provides additional immersive feedback, as anyone can see in this source code.
+# OWO_Super_Hot_VR
+OWO x Super Hot VR
 
 ## What is OWO?
-The OWO Skin is a haptic technology that allows you to feel everything that happens in a videogame. The OWO is capable of delivering highly realistic and precise sensations, such as the feeling of impacts, the recoils from your weapons, or even the subtle sensation of insects moving across your skin.
+OWO Skin is a haptic technology that lets you feel everything that happens in a video game.  
+OWO is capable of delivering highly realistic and precise sensations, such as the feeling of impact, the recoil of your weapons or even the subtle sensation of insects moving across your skin.
 
 Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 
@@ -17,6 +13,7 @@ Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 - Extract the mod zip and place all files and the owo folder into the Mods directory of your game installation.
 - Enjoy your inmersive experience! 😊
 
+--WIP--
 # Featured effect
 - String Bow
 - Bow Release
@@ -30,6 +27,7 @@ Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 - Fire Catapult
 - Fire Balista
 - Heart Beat
+--WIP--
 
 # Manual Connection
 If you are having trouble with the automatic connection, create a .txt file called OWO_Manual_IP.txt  
