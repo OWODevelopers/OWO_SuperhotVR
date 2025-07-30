@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+
 using MelonLoader;
 using OWOGame;
 
@@ -14,10 +15,10 @@ namespace OWO_SuperhotVR
         public bool systemInitialized = false;
         private static bool heartBeatIsActive = false;
         private int heartbeatCount = 0;
-        public bool stringBowIsActive = false;
-        public int stringBowIntensity = 40;
 
         public Dictionary<String, Sensation> FeedbackMap = new Dictionary<String, Sensation>();
+        private readonly Muscle[] rightRecoilMuscles = { Muscle.Arm_R, Muscle.Pectoral_R, Muscle.Dorsal_R };
+        private readonly Muscle[] leftRecoilMuscles = { Muscle.Arm_L, Muscle.Pectoral_L, Muscle.Dorsal_L };
 
         public OWOSkin()
         {
@@ -29,7 +30,7 @@ namespace OWO_SuperhotVR
 
         private void RegisterAllSensationsFiles()
         {
-            string configPath = Directory.GetCurrentDirectory() + "\\Mods\\OWO";
+            string configPath = Directory.GetCurrentDirectory() + "\\Mods\\owo";
             DirectoryInfo d = new DirectoryInfo(configPath);
             FileInfo[] Files = d.GetFiles("*.owo", SearchOption.AllDirectories);
             for (int i = 0; i < Files.Length; i++)
@@ -56,7 +57,7 @@ namespace OWO_SuperhotVR
         {
             LOG("Initializing OWO skin");
 
-            var gameAuth = GameAuth.Create(AllBakedSensations()).WithId("57995924");
+            var gameAuth = GameAuth.Create(AllBakedSensations()).WithId("84329488");
 
             OWO.Configure(gameAuth);
             string[] myIPs = GetIPsFromFile("OWO_Manual_IP.txt");
@@ -70,7 +71,7 @@ namespace OWO_SuperhotVR
             {
                 suitEnabled = true;
                 LOG("OWO suit connected.");
-                Feel("Heart Beat");
+                Feel("Grab Pyramid");
             }
             if (!suitEnabled) LOG("OWO is not enabled?!?!");
         }
@@ -98,7 +99,7 @@ namespace OWO_SuperhotVR
         public string[] GetIPsFromFile(string filename)
         {
             List<string> ips = new List<string>();
-            string filePath = Directory.GetCurrentDirectory() + "\\BepinEx\\Plugins\\OWO" + filename;
+            string filePath = Directory.GetCurrentDirectory() + "\\Mods" + filename;
             if (File.Exists(filePath))
             {
                 LOG("Manual IP file found: " + filePath);
@@ -129,9 +130,10 @@ namespace OWO_SuperhotVR
         {
             if (FeedbackMap.ContainsKey(key))
             {
-                Sensation toSend = FeedbackMap[key];                
+                Sensation toSend = FeedbackMap[key];
 
-                if (intensity != 0) {
+                if (intensity != 0)
+                {
                     toSend = toSend.WithMuscles(Muscle.All.WithIntensity(intensity));
                 }
 
@@ -141,19 +143,31 @@ namespace OWO_SuperhotVR
             else LOG("Feedback not registered: " + key);
         }
 
-        public void FeelWithHand(String key, int priority = 0, bool isRightHand = true, int intensity = 0)
+        public void FeelWithHand(String key, bool isRightHand = true, int Priority = 0, int intensity = 100)
         {
-
-            if (isRightHand)
+            Sensation toSend = GetBackedId(key);
+            if (toSend == null)
             {
-                key += " R";
+                LOG("Feedback not registered: " + key);
+                return;
+            }
+
+            toSend = toSend.WithMuscles(isRightHand ? rightRecoilMuscles.WithIntensity(intensity) : leftRecoilMuscles.WithIntensity(intensity));
+
+            OWO.Send(toSend.WithPriority(Priority));
+        }
+
+        private Sensation GetBackedId(string sensationKey)
+        {
+            if (FeedbackMap.ContainsKey(sensationKey))
+            {
+                return FeedbackMap[sensationKey];
             }
             else
             {
-                key += " L";
+                LOG($"Feedback not registered: {sensationKey}");
+                return null;
             }
-
-            Feel(key, priority, intensity);
         }
 
         public void LOG(string logStr)
@@ -184,33 +198,8 @@ namespace OWO_SuperhotVR
                 Feel("Heart Beat", 0);
                 await Task.Delay(1000);
             }
-            
+
             StopHeartBeat();
-        }
-        #endregion
-
-
-        #region StringBow loop
-        public void StartStringBow(bool isRightHanded)
-        {
-            if (stringBowIsActive) return;
-
-            stringBowIsActive = true;
-            StringBowFuncAsync(isRightHanded);
-        }
-
-        public void StopStringBow()
-        {
-            stringBowIsActive = false;
-        }
-
-        public async Task StringBowFuncAsync(bool isRightHanded)
-        {
-            while (stringBowIsActive)
-            {
-                FeelWithHand("String Bow", 1, isRightHanded, stringBowIntensity);
-                await Task.Delay(100);
-            }
         }
         #endregion
 
@@ -223,7 +212,6 @@ namespace OWO_SuperhotVR
         public void StopAllHapticFeedback()
         {
             StopHeartBeat();
-            StopStringBow();
 
             OWO.Stop();
         }

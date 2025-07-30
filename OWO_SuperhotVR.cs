@@ -10,7 +10,6 @@ namespace OWO_SuperhotVR
     public class OWO_SuperhotVR : MelonMod
     {
         public static OWOSkin owoSkin;
-        public static bool isRightHanded = true;
         public static string itemInHand = "";
 
         public override void OnInitializeMelon()

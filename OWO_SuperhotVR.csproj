@@ -54,6 +54,9 @@
       <HintPath>lib\PhotonUnityNetworking.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SuperhotOWOIntegration">
+      <HintPath>..\..\..\Desktop\SuperhotOWOIntegration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
