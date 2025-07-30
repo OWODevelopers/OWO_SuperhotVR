@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HandType.cs" />
     <Compile Include="OWO_SuperhotVR.cs" />
     <Compile Include="OWOSkin.cs" />
   </ItemGroup>
