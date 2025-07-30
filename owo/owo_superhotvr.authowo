@@ -1,0 +1,12 @@
+0~Death~100,10,80,0,300,0,Death~health-3~#
+1~Melee~100,4,90,0,100,0,Attack~weapon-0~#
+2~Punch Hit~100,2,70,0,0,0,Punch~impact-2~#
+3~Bullet Parry~100,7,61,0,0,0,Parry~interaction-1~#
+4~Mindwave Charge~100,50,65,1200,0,0,Charging~magic-5~#
+5~Mindwave~100,10,100,0,400,0,Explosion~alert-0~#
+6~Grab Pyramid~100,5,81,0,300,0,Grab~interaction-2~#
+7~Throw~100,4,70,0,300,0,Throw~environment-3~#
+8~Pistol Recoil~20,1,70,0,0,0,Recoil~weapon-2~Weapons#
+9~Uzi Recoil~100,1,90,0,100,0,Shoot 1&100,1,90,0,100,0,Shoot 2&100,1,90,0,100,0,Shoot 3&100,1,90,0,100,0,Shoot 4~weapon-3~Weapons#
+10~Shotgun Recoil~20,2,100,100,0,0,Recoil~impact-3~Weapons#
+11~No Ammo~100,1,51,0,0,0,No Ammo~alert-3~Weapons
