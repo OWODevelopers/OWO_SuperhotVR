@@ -195,7 +195,7 @@ namespace OWO_SuperhotVR
             while (heartBeatIsActive && heartbeatCount <= 15)
             {
                 heartbeatCount++;
-                Feel("Heart Beat", 0);
+                Feel("Heart Beat", 0); //TODO
                 await Task.Delay(1000);
             }
 

@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using MelonLoader;
+using System;
+using UnityEngine;
 
 [assembly: MelonInfo(typeof(OWO_SuperhotVR.OWO_SuperhotVR), "OWO_SuperHotVR", "1.0.0", "OWOGame")]
 [assembly: MelonGame("SUPERHOT_Team", "SUPERHOT_VR")]
@@ -17,18 +19,17 @@ namespace OWO_SuperhotVR
             owoSkin = new OWOSkin();
         }
 
-        //[HarmonyPatch(typeof(WenklyStudio.ElvenAssassin.DragonAttackControler), "KillPlayer", new Type[] { typeof(WenklyStudio.ElvenAssassin.PlayerController) })]
-        //public class DragonKillPlayer
-        //{
-        //    [HarmonyPostfix]
-        //    public static void Postfix(WenklyStudio.ElvenAssassin.PlayerController playerToBeKilled)
-        //    {
-        //        if (!owoSkin.suitEnabled) return;
+        [HarmonyPatch(typeof(PlayerActionsVR), "Kill", new Type[] { typeof(Vector3), typeof(bool), typeof(bool), typeof(bool) })]
+        public class KillPlayer
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Vector3 killerObjectPosition, bool switchToBlack = false, bool hardKill = false, bool forced = false)
+            {
+                if (!owoSkin.suitEnabled) return;
 
-        //        if (playerToBeKilled != PlayersManager.Instance.LocalPlayer) return;
-        //        owoSkin.Feel("Flame Thrower", 3);
-        //    }
-        //}
+                owoSkin.Feel("Death", 3);
+            }
+        }
 
     }
 }
