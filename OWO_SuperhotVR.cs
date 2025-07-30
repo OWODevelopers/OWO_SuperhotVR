@@ -49,11 +49,11 @@ namespace OWO_SuperhotVR
                 {
                     case HandType.Empty_LeftHand:
                     case HandType.LeftHand:
-                        owoSkin.FeelWithHand("Grab", false);
+                        owoSkin.FeelWithHand("Grab Object", false);
                         break;
                     case HandType.Empty_RightHand:
                     case HandType.RightHand:
-                        owoSkin.FeelWithHand("Grab", true);
+                        owoSkin.FeelWithHand("Grab Object", true);
                         break;
                 }
             }

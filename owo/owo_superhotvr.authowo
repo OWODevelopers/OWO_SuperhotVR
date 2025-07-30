@@ -9,4 +9,5 @@
 8~Pistol Recoil~20,1,70,0,0,0,Recoil~weapon-2~Weapons#
 9~Uzi Recoil~100,1,90,0,100,0,Shoot 1&100,1,90,0,100,0,Shoot 2&100,1,90,0,100,0,Shoot 3&100,1,90,0,100,0,Shoot 4~weapon-3~Weapons#
 10~Shotgun Recoil~20,2,100,100,0,0,Recoil~impact-3~Weapons#
-11~No Ammo~100,1,51,0,0,0,No Ammo~alert-3~Weapons
+11~No Ammo~100,1,51,0,0,0,No Ammo~alert-3~Weapons#
+12~Grab Object~100,5,81,0,300,0,Grab~interaction-2~
