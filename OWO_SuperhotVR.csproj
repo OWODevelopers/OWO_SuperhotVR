@@ -78,6 +78,7 @@
     <Compile Include="HandType.cs" />
     <Compile Include="OWO_SuperhotVR.cs" />
     <Compile Include="OWOSkin.cs" />
+    <Compile Include="PickableItems.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

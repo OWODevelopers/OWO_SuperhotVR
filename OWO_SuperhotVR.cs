@@ -21,62 +21,148 @@ namespace OWO_SuperhotVR
         }
 
         [HarmonyPatch(typeof(PlayerActionsVR), "Kill", new Type[] { typeof(Vector3), typeof(bool), typeof(bool), typeof(bool) })]
-        public class KillPlayer
+        public class Patch_KillPlayer
         {
             [HarmonyPostfix]
             public static void Postfix(Vector3 killerObjectPosition, bool switchToBlack = false, bool hardKill = false, bool forced = false)
             {
                 if (!owoSkin.suitEnabled) return;
 
-                owoSkin.Feel("Death", 3);
+                owoSkin.Feel("Death", Priority: 4);
             }
         }
 
         [HarmonyPatch(typeof(VrPickingSystem), "PickupItem", new Type[]
-{
-        typeof(VrHandController),
-        typeof(PickupProxy),
-        typeof(GrabTypes)
-})]
-        public static class PickUpItem
+        {typeof(VrHandController),typeof(PickupProxy),typeof(GrabTypes)})]
+        public class Patch_PickUpItem
         {
             [HarmonyPostfix]
             public static void PostFix(VrPickingSystem __instance, VrHandController handController, PickupProxy pickup, GrabTypes grabType = GrabTypes.Grip)
             {
                 HandType hand = GetHandFromControllerString(handController.CurrentController.ToString());
 
+
+                //if(pickup is typeof())
+                //{
+
+                //}
+
                 switch (hand)
                 {
                     case HandType.Empty_LeftHand:
                     case HandType.LeftHand:
-                        owoSkin.FeelWithHand("Grab Object", false);
+                        owoSkin.FeelWithHand("Grab Object", isRightHand: false, Priority: 2);
                         break;
                     case HandType.Empty_RightHand:
                     case HandType.RightHand:
-                        owoSkin.FeelWithHand("Grab Object", true);
+                        owoSkin.FeelWithHand("Grab Object", Priority: 2);
                         break;
                 }
             }
-
-            #region HELPERS
-
-            private static HandType GetHandFromControllerString(string hand)
-            {
-                if (hand.Contains("Right"))
-                {
-                    return HandType.RightHand;
-                }
-
-                if (hand.Contains("Left"))
-                {
-                    return HandType.LeftHand;
-                }
-
-                owoSkin.LOG("HAND PARAMETER = " + hand + " DOESNT EXIST");
-                return HandType.None;
-            } 
-            #endregion
-
         }
+
+        [HarmonyPatch(typeof(VrHapticSystem), "SetVibration", new Type[]
+        {typeof(Controller),typeof(string),typeof(float)})]
+        public class Patch_SetVibration
+        {
+            [HarmonyPostfix]
+            public static void PostFix(Controller controller, string preset, float multiplier)
+            {
+                if (!owoSkin.suitEnabled) return;
+
+                HandType hand = GetHandFromControllerString(controller.ToString());
+                switch (hand)
+                {
+                    case HandType.Empty_LeftHand:
+                    case HandType.LeftHand:
+                        if (preset == "Punch")
+                            owoSkin.FeelWithHand("Punch Hit", false, Priority: 2);
+                        break;
+                    case HandType.Empty_RightHand:
+                    case HandType.RightHand:
+                        if (preset == "Punch")
+                            owoSkin.FeelWithHand("Punch Hit", Priority: 2);
+                        break;
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Gun), "Fire", new System.Type[] { typeof(Ray), typeof(LayerMask), typeof(Gun) })]
+        public class Patch_FireGun
+        {
+            [HarmonyPostfix]
+            public static void PostFix(Gun __instance, Ray ray, LayerMask mask, Gun weapon = null)
+            {
+                HandType hand = GetHandFromControllerString(weapon.gameObject.transform.parent.parent.parent.ToString());
+
+                PickableItems guntype = GunType(__instance);
+                owoSkin.LOG("Gun fired: " + guntype);
+
+                owoSkin.FeelGunfire(guntype, hand);
+            }
+        }
+
+        [HarmonyPatch(typeof(UziGun), "ShootUziBullets")]
+        public class Patch_FireUzi
+        {
+            [HarmonyPostfix]
+            public static void PostFix(UziGun __instance)
+            {
+                HandType hand = GetHandFromControllerString(__instance.gameObject.transform.parent.parent.parent.ToString());
+                
+                owoSkin.LOG("Gun fired: Uzi");
+                owoSkin.FeelGunfire(PickableItems.Uzi, hand);
+            }
+        }
+
+        [HarmonyPatch(typeof(Gun), "FireNoAmmo")]
+        public class Patch_NoAmmo
+        {
+            [HarmonyPostfix]
+            public static void PostFix(Gun __instance)
+            {
+                HandType hand = GetHandFromControllerString(__instance.gameObject.transform.parent.parent.parent.ToString());
+                owoSkin.FeelGunfire(PickableItems.Gun_NoAmmo, hand);
+            }
+        }
+
+        #region HELPERS
+        private static HandType GetHandFromControllerString(string hand)
+        {
+            if (hand.Contains("Right"))
+            {
+                return HandType.RightHand;
+            }
+
+            if (hand.Contains("Left"))
+            {
+                return HandType.LeftHand;
+            }
+
+            owoSkin.LOG("HAND PARAMETER = " + hand + " DOESNT EXIST");
+            return HandType.None;
+        }
+
+        public static PickableItems GunType(Gun gun)
+        {
+            owoSkin.LOG($"Ammo left: {gun.ammoCount}");
+
+            if (gun.ammoCount <= 0)
+                return PickableItems.Gun_NoAmmo;
+
+            switch (gun)
+            {
+                case ShotGun _:
+                    return PickableItems.Shotgun;
+                case UziGun _:
+                    return PickableItems.Uzi;
+                case PistolGun _:
+                    return PickableItems.Pistol;
+                default:
+                    return PickableItems.None;
+            }
+        }
+        #endregion
+
     }
 }

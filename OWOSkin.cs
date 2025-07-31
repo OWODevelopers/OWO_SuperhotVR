@@ -17,8 +17,8 @@ namespace OWO_SuperhotVR
         private int heartbeatCount = 0;
 
         public Dictionary<String, Sensation> FeedbackMap = new Dictionary<String, Sensation>();
-        private readonly Muscle[] rightRecoilMuscles = { Muscle.Arm_R, Muscle.Pectoral_R, Muscle.Dorsal_R };
-        private readonly Muscle[] leftRecoilMuscles = { Muscle.Arm_L, Muscle.Pectoral_L, Muscle.Dorsal_L };
+        private readonly Muscle[] rightRecoilMuscles = { Muscle.Arm_R, Muscle.Pectoral_R.WithIntensity(80), Muscle.Dorsal_R.WithIntensity(40) };
+        private readonly Muscle[] leftRecoilMuscles = { Muscle.Arm_L, Muscle.Pectoral_L.WithIntensity(80), Muscle.Dorsal_L.WithIntensity(40) };
 
         public OWOSkin()
         {
@@ -157,6 +157,29 @@ namespace OWO_SuperhotVR
             OWO.Send(toSend.WithPriority(Priority));
         }
 
+        public void FeelGunfire(PickableItems guntype, HandType hand)
+        {
+            switch (guntype)
+            {
+                case PickableItems.Pistol:
+                    FeelWithHand("Pistol Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    break;
+                case PickableItems.Uzi:
+                    FeelWithHand("Uzi Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    break;
+                case PickableItems.Shotgun:
+                    FeelWithHand("Shotgun Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    break;
+                case PickableItems.Gun_NoAmmo:
+                    FeelWithHand("No Ammo", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    break;
+                case PickableItems.Knife:
+                case PickableItems.Throwable:
+                case PickableItems.Pyramid:
+                    break;
+            }
+        }
+
         private Sensation GetBackedId(string sensationKey)
         {
             if (FeedbackMap.ContainsKey(sensationKey))
@@ -215,7 +238,5 @@ namespace OWO_SuperhotVR
 
             OWO.Stop();
         }
-
-
     }
 }
