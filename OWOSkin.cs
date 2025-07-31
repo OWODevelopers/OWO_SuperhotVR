@@ -224,7 +224,7 @@ namespace OWO_SuperhotVR
         }
         public void MindWaveSkill()
         {
-            StopAllHapticFeedback();
+            StopMindWaveCharge();
             Feel("Mindwave", 2);
         }
         #endregion
@@ -237,7 +237,6 @@ namespace OWO_SuperhotVR
 
         public void StopAllHapticFeedback()
         {
-            StopMindWaveCharge();
             OWO.Stop();
         }
     }

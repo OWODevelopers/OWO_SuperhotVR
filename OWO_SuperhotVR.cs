@@ -86,11 +86,22 @@ namespace OWO_SuperhotVR
         public class Patch_FireGun
         {
             [HarmonyPostfix]
-            public static void PostFix(Gun __instance, Ray ray, LayerMask mask, Gun weapon = null)
+            public static void PostFix(Ray ray, LayerMask mask, Gun weapon = null)
             {
                 HandType hand = GetHandFromControllerString(weapon.gameObject.transform.parent.parent.parent.ToString());
+                PickableItems guntype = GunType(weapon);
+                owoSkin.FeelGunfire(guntype, hand);
+            }
+        }
 
-                PickableItems guntype = GunType(__instance);
+        [HarmonyPatch(typeof(ShotGun), "Fire", new System.Type[] { typeof(Ray), typeof(LayerMask), typeof(ShotGun) })]
+        public class Patch_FireShotgun
+        {
+            [HarmonyPostfix]
+            public static void PostFix(Ray ray, LayerMask mask, Gun weapon = null)
+            {
+                HandType hand = GetHandFromControllerString(weapon.gameObject.transform.parent.parent.parent.ToString());
+                PickableItems guntype = GunType(weapon);
                 owoSkin.FeelGunfire(guntype, hand);
             }
         }
