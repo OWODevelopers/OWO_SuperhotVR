@@ -39,23 +39,18 @@ namespace OWO_SuperhotVR
             [HarmonyPostfix]
             public static void PostFix(VrPickingSystem __instance, VrHandController handController, PickupProxy pickup, GrabTypes grabType = GrabTypes.Grip)
             {
+                string sensationName = pickup.GameObject.name == "TeleportPyramid" ? "Grab Pyramid" : "Grab Object";
+
                 HandType hand = GetHandFromControllerString(handController.CurrentController.ToString());
-
-
-                //if(pickup is typeof())
-                //{
-
-                //}
-
                 switch (hand)
                 {
                     case HandType.Empty_LeftHand:
                     case HandType.LeftHand:
-                        owoSkin.FeelWithHand("Grab Object", isRightHand: false, Priority: 2);
+                        owoSkin.FeelWithHand(sensationName, isRightHand: false, Priority: 2);
                         break;
                     case HandType.Empty_RightHand:
                     case HandType.RightHand:
-                        owoSkin.FeelWithHand("Grab Object", Priority: 2);
+                        owoSkin.FeelWithHand(sensationName, Priority: 2);
                         break;
                 }
             }
@@ -96,8 +91,6 @@ namespace OWO_SuperhotVR
                 HandType hand = GetHandFromControllerString(weapon.gameObject.transform.parent.parent.parent.ToString());
 
                 PickableItems guntype = GunType(__instance);
-                owoSkin.LOG("Gun fired: " + guntype);
-
                 owoSkin.FeelGunfire(guntype, hand);
             }
         }
@@ -109,8 +102,6 @@ namespace OWO_SuperhotVR
             public static void PostFix(UziGun __instance)
             {
                 HandType hand = GetHandFromControllerString(__instance.gameObject.transform.parent.parent.parent.ToString());
-                
-                owoSkin.LOG("Gun fired: Uzi");
                 owoSkin.FeelGunfire(PickableItems.Uzi, hand);
             }
         }
@@ -123,6 +114,84 @@ namespace OWO_SuperhotVR
             {
                 HandType hand = GetHandFromControllerString(__instance.gameObject.transform.parent.parent.parent.ToString());
                 owoSkin.FeelGunfire(PickableItems.Gun_NoAmmo, hand);
+            }
+        }
+
+        [HarmonyPatch(typeof(VrHandController), "ApplyHit", new System.Type[] { })]
+        public class Patch_ParryBullet
+        {
+            [HarmonyPostfix]
+            public static void PostFix(VrHandController __instance)
+            {
+                HandType hand = GetHandFromControllerString(__instance.CurrentController.ToString());
+                owoSkin.FeelWithHand("Bullet Parry", hand == HandType.RightHand, Priority: 3);
+            }
+        }
+
+        [HarmonyPatch(typeof(VrPickupDroppingSystem), "DropItem", new System.Type[] { typeof(VrHandController), typeof(float), typeof(float) })]
+        public class Patch_DropItem
+        {
+            [HarmonyPostfix]
+            public static void PostFix(
+              VrPickupDroppingSystem __instance,
+              VrHandController handController,
+              float linearVelocity = 0.0f,
+              float angularVelocity = 0.0f)
+            {
+                if ((double)linearVelocity >= 2.0)
+                {
+                    HandType hand = GetHandFromControllerString(handController.CurrentController.ToString());
+                    owoSkin.FeelWithHand("Throw", hand == HandType.RightHand, Priority: 2);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(MindDeathWaveSystem), "DualModeDeathWaveOnTarget", new System.Type[] { typeof(MindDeathWaveComponent), typeof(MindDeathWaveComponent) })]
+        public class DualDeathWave
+        {
+            [HarmonyPrefix]
+            public static void PreFix(
+              MindDeathWaveComponent firstController,
+              MindDeathWaveComponent secondController,
+              MindDeathWaveSystem __instance)
+            {
+                if (__instance.dualDeathWaveActivated)
+                    return;
+
+                owoSkin.StartMindWaveCharge();
+            }
+        }
+
+        [HarmonyPatch(typeof(MindDeathWaveSystem), "ResetDeathWave", new System.Type[] { typeof(MindDeathWaveComponent) })]
+        public class ResetDualDeathWave
+        {
+            [HarmonyPrefix]
+            public static void PreFix(
+              MindDeathWaveComponent deathWaveController,
+              MindDeathWaveSystem __instance)
+            {
+                if (!__instance.dualDeathWaveActivated)
+                    return;
+
+                owoSkin.StopMindWaveCharge();
+            }
+        }
+
+        [HarmonyPatch(typeof(ScoreManager), "scorePoints", new System.Type[] { typeof(int), typeof(Vector3), typeof(ScoreManager.ScoreType), typeof(GunPickup), typeof(PejAiBody) })]
+        public static class ExplodeHead
+        {
+            [HarmonyPrefix]
+            public static void PreFix(
+              int rewardedpoints,
+              Vector3 particlePos,
+              ScoreManager.ScoreType scoreType,
+              GunPickup weapon,
+              PejAiBody enemy)
+            {
+                if (scoreType != ScoreManager.ScoreType.deathwave)
+                    return;
+                
+                owoSkin.MindWaveSkill();
             }
         }
 
@@ -145,8 +214,6 @@ namespace OWO_SuperhotVR
 
         public static PickableItems GunType(Gun gun)
         {
-            owoSkin.LOG($"Ammo left: {gun.ammoCount}");
-
             if (gun.ammoCount <= 0)
                 return PickableItems.Gun_NoAmmo;
 

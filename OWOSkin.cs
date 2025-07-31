@@ -13,7 +13,7 @@ namespace OWO_SuperhotVR
     {
         public bool suitEnabled = false;
         public bool systemInitialized = false;
-        private static bool heartBeatIsActive = false;
+        private static bool mindwaveChargeIsActive = false;
         private int heartbeatCount = 0;
 
         public Dictionary<String, Sensation> FeedbackMap = new Dictionary<String, Sensation>();
@@ -162,16 +162,16 @@ namespace OWO_SuperhotVR
             switch (guntype)
             {
                 case PickableItems.Pistol:
-                    FeelWithHand("Pistol Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    FeelWithHand("Pistol Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand, Priority: 2);
                     break;
                 case PickableItems.Uzi:
-                    FeelWithHand("Uzi Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    FeelWithHand("Uzi Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand, Priority: 2);
                     break;
                 case PickableItems.Shotgun:
-                    FeelWithHand("Shotgun Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    FeelWithHand("Shotgun Recoil", hand == HandType.RightHand || hand == HandType.Empty_RightHand, Priority: 2);
                     break;
                 case PickableItems.Gun_NoAmmo:
-                    FeelWithHand("No Ammo", hand == HandType.RightHand || hand == HandType.Empty_RightHand);
+                    FeelWithHand("No Ammo", hand == HandType.RightHand || hand == HandType.Empty_RightHand, Priority: 2);
                     break;
                 case PickableItems.Knife:
                 case PickableItems.Throwable:
@@ -198,31 +198,34 @@ namespace OWO_SuperhotVR
             MelonLogger.Msg(logStr);
         }
 
-        #region heart beat loop
-        public void StartHeartBeat()
+        #region mindwave loop
+        public void StartMindWaveCharge()
         {
-            if (heartBeatIsActive) return;
+            if (mindwaveChargeIsActive) return;
 
-            heartBeatIsActive = true;
-            HeartBeatFuncAsync();
+            mindwaveChargeIsActive = true;
+            MindWaveChargeFuncAsync();
         }
 
-        public void StopHeartBeat()
+        public void StopMindWaveCharge()
         {
-            heartbeatCount = 0;
-            heartBeatIsActive = false;
+            mindwaveChargeIsActive = false;
         }
 
-        public async Task HeartBeatFuncAsync()
+        public async Task MindWaveChargeFuncAsync()
         {
-            while (heartBeatIsActive && heartbeatCount <= 15)
+            while (mindwaveChargeIsActive)
             {
-                heartbeatCount++;
-                Feel("Heart Beat", 0); //TODO
+                Feel("Mindwave Charge", 0);
                 await Task.Delay(1000);
             }
 
-            StopHeartBeat();
+            StopMindWaveCharge();
+        }
+        public void MindWaveSkill()
+        {
+            StopAllHapticFeedback();
+            Feel("Mindwave", 2);
         }
         #endregion
 
@@ -234,8 +237,7 @@ namespace OWO_SuperhotVR
 
         public void StopAllHapticFeedback()
         {
-            StopHeartBeat();
-
+            StopMindWaveCharge();
             OWO.Stop();
         }
     }
