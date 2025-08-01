@@ -26,10 +26,10 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>D:\Games\Steam\steamapps\common\Elven Assassin\Mods\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.3.6.0, Culture=neutral, processorArchitecture=MSIL">
@@ -53,9 +53,6 @@
     <Reference Include="PhotonUnityNetworking">
       <HintPath>lib\PhotonUnityNetworking.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="SuperhotOWOIntegration">
-      <HintPath>..\..\..\Desktop\SuperhotOWOIntegration.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
