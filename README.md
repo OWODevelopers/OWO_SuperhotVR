@@ -8,7 +8,7 @@ OWO is capable of delivering highly realistic and precise sensations, such as th
 Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 
 # Installation [MelonLoader 0.7.0]
-- Download [MelonLoader](https://github.com/LavaGang/MelonLoader/releases/latest).
+- Download [MelonLoader](https://github.com/LavaGang/MelonLoader/releases/latest) and install it.
 - Download the [lastest release of this mod](https://github.com/OWODevelopers/OWO_SuperhotVR/releases/latest)
 - Extract the mod zip and place all files and the owo folder into the Mods directory of your game installation: ..\SUPERHOT VR\Mods.
 - Enjoy your inmersive experience! 😊
