@@ -1,5 +1,5 @@
 # OWO_Super_Hot_VR
-OWO x Super Hot VR
+OWO integration for SUPERHOT VR game.
 
 ## What is OWO?
 OWO Skin is a haptic technology that lets you feel everything that happens in a video game.  
@@ -9,27 +9,23 @@ Want to get an OWO Suit? [Look here](https://owogame.com/shop/).
 
 # Installation [MelonLoader 0.7.0]
 - Download [MelonLoader](https://github.com/LavaGang/MelonLoader/releases/latest).
-- Download the [lastest release of this mod](https://github.com/OWODevelopers/OWO_ElvenAssassin/releases/latest)
-- Extract the mod zip and place all files and the owo folder into the Mods directory of your game installation.
+- Download the [lastest release of this mod](https://github.com/OWODevelopers/OWO_SuperhotVR/releases/latest)
+- Extract the mod zip and place all files and the owo folder into the Mods directory of your game installation: ..\SUPERHOT VR\Mods.
 - Enjoy your inmersive experience! 😊
 
---WIP--
-
 # Featured effect
-- String Bow
-- Bow Release
-- Flame Thrower
-- Impact
-- Belly Rumble
-- Teleport
-- Gate Damage
-- Death
-- Fire Cannon
-- Fire Catapult
-- Fire Balista
-- Heart Beat
-
---WIP--
+- Bullet Parry
+- Death 
+- Grab Object
+- Grab Pyramid
+- Punch Hit
+- Mindwave Charge
+- Mindwave
+- No Ammo
+- Pistol Recoil
+- Uzi Recoil
+- Shotgun Recoil
+- Throw
 
 # Manual Connection
 If you are having trouble with the automatic connection, create a .txt file called OWO_Manual_IP.txt  
