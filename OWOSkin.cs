@@ -11,7 +11,6 @@ namespace OWO_SuperhotVR
 {
     public class OWOSkin
     {
-        public bool suitEnabled = false;
         public bool systemInitialized = false;
         private static bool mindwaveChargeIsActive = false;
         private int heartbeatCount = 0;
@@ -69,11 +68,10 @@ namespace OWO_SuperhotVR
 
             if (OWO.ConnectionState == OWOGame.ConnectionState.Connected)
             {
-                suitEnabled = true;
                 LOG("OWO suit connected.");
                 Feel("Grab Pyramid");
             }
-            if (!suitEnabled) LOG("OWO is not enabled?!?!");
+            else LOG("OWO is not enabled?!?!");
         }
 
         public BakedSensation[] AllBakedSensations()
@@ -99,7 +97,7 @@ namespace OWO_SuperhotVR
         public string[] GetIPsFromFile(string filename)
         {
             List<string> ips = new List<string>();
-            string filePath = Directory.GetCurrentDirectory() + "\\Mods" + filename;
+            string filePath = Directory.GetCurrentDirectory() + "\\Mods\\" + filename;
             if (File.Exists(filePath))
             {
                 LOG("Manual IP file found: " + filePath);
