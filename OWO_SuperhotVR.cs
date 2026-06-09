@@ -26,8 +26,6 @@ namespace OWO_SuperhotVR
             [HarmonyPostfix]
             public static void Postfix(Vector3 killerObjectPosition, bool switchToBlack = false, bool hardKill = false, bool forced = false)
             {
-                if (!owoSkin.suitEnabled) return;
-
                 owoSkin.Feel("Death", Priority: 4);
             }
         }
@@ -63,8 +61,6 @@ namespace OWO_SuperhotVR
             [HarmonyPostfix]
             public static void PostFix(Controller controller, string preset, float multiplier)
             {
-                if (!owoSkin.suitEnabled) return;
-
                 HandType hand = GetHandFromControllerString(controller.ToString());
                 switch (hand)
                 {
